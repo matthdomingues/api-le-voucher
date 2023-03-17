@@ -62,7 +62,7 @@ describe("Create voucher unit test suite", () => {
 // //     const result = await voucherService.applyVoucher(voucher.code, amount);
 
 // //     console.log(result)
-
+///
 // //     let expectedResult = {
 // //         amount: amount,
 // //         discount: voucher.discount,
