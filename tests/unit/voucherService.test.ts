@@ -22,8 +22,10 @@ const voucher = {
 
 describe("Create voucher unit test suite", () => {    
 
-    it("should create a valid voucher", async () => {     
-        expect( async () => {jest
+    it("should create a valid voucher", () => {     
+        expect( async () => {
+        
+        jest
             .spyOn(voucherRepository, "getVoucherByCode")
             .mockImplementationOnce((): any => {return ""});  
 
@@ -32,10 +34,11 @@ describe("Create voucher unit test suite", () => {
             .mockImplementationOnce((): any => {return voucher});
 
         await voucherService.createVoucher(voucher.code, voucher.discount)
-    }).not.toEqual({message: "Voucher already exist.", type: "conflict"});
+
+        }).not.toEqual({message: "Voucher already exist.", type: "conflict"});
     });
 
-    it("should respond with 'Voucher already exist.' ",  () => {
+    it("should respond with 'Voucher already exist.'", () => {
         expect( async () => {
         const voucher = {
             code: generateCode(),
@@ -44,7 +47,7 @@ describe("Create voucher unit test suite", () => {
 
         jest.spyOn(voucherRepository, "getVoucherByCode").mockImplementationOnce((): any => {return [voucher]});
 
-        const promise = await voucherService.createVoucher(voucher.code, voucher.discount);
+        await voucherService.createVoucher(voucher.code, voucher.discount);
         }).rejects.toBeInstanceOf({message: "Voucher already exist.", type: "conflict"});
     }); 
 })
@@ -55,7 +58,7 @@ describe("Apply voucher unit test suite", () => {
         
     jest
         .spyOn(voucherRepository, "getVoucherByCode")
-        .mockImplementationOnce((code): any => {
+        .mockImplementationOnce((): any => {
             return {
                 id: 1,
                 code: voucher.code,
@@ -70,17 +73,17 @@ describe("Apply voucher unit test suite", () => {
     
     const response = await voucherService.applyVoucher(voucher.code, 100);
      
-    let expectedResult = {
+    const expectedResult = {
          amount: 100,
          discount: voucher.discount,
          finalAmount: 100 - (100 * (voucher.discount / 100)),
          applied: true
-    }
+    };
 
      expect(response).toEqual(expectedResult);
     });
 
-    it("should respond with 'Voucher does not exist.' ", async () => {
+    it("should respond with 'Voucher does not exist.'", async () => {
 
         jest
         .spyOn(voucherRepository, "getVoucherByCode")
@@ -92,11 +95,11 @@ describe("Apply voucher unit test suite", () => {
         expect(response).rejects.toEqual({message: "Voucher does not exist.", type: "conflict"})
     });
    
-   it("the minimun amount is invalid for discount",async () => {
+   it("the minimun amount is invalid for discount", async () => {
 
     jest
         .spyOn(voucherRepository, "getVoucherByCode")
-        .mockImplementationOnce((code): any => {
+        .mockImplementationOnce((): any => {
             return {
                 id: 1,
                 code: voucher.code,
@@ -125,7 +128,7 @@ describe("Apply voucher unit test suite", () => {
         
         jest
         .spyOn(voucherRepository, "getVoucherByCode")
-        .mockImplementationOnce((code): any => {
+        .mockImplementationOnce((): any => {
             return {
                 id: 1,
                 code: voucher.code,
