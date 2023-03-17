@@ -48,7 +48,7 @@ describe("Create voucher unit test suite", () => {
         jest.spyOn(voucherRepository, "getVoucherByCode").mockImplementationOnce((): any => {return [voucher]});
 
         await voucherService.createVoucher(voucher.code, voucher.discount);
-        }).rejects.toBeInstanceOf({message: "Voucher already exist.", type: "conflict"});
+        }).rejects.toStrictEqual({message: "Voucher already exist.", type: "conflict"});
     }); 
 })
 
